@@ -1,33 +1,40 @@
 package com.example.EmployeePayload.service;
 
+import com.example.EmployeePayload.DTO.EmployeeDTO;
+import com.example.EmployeePayload.Model.EmployeeData;
 import com.example.EmployeePayload.Repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
-public class EmployeeService {
+public class EmployeeService implements IEmployeeService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    public String getEmployee() {
-        return "Employee Details";
+    public List<EmployeeData> getAllEmployee() {
+        List<EmployeeData> empList = new ArrayList<>();
+        empList.add(new EmployeeData(1,new EmployeeDTO("Aryan",100000)));
+        return empList;
     }
 
-    public String getEmployeeById(Long id) {
-        return "Employee Details for id: " + id;
+    public EmployeeData getEmployeeById(int id) {
+        return new EmployeeData(1,new EmployeeDTO("kartik",900000));
     }
 
-    public String postEmployee() {
-        return "Employee Added";
+    public EmployeeData postEmployee(EmployeeDTO employeeDTO) {
+        return new EmployeeData(1,employeeDTO);
     }
 
-    public String putEmployee(Long id) {
-        return "Employee Updated for id: " + id;
+    public EmployeeData putEmployee(int id,EmployeeDTO employeeDTO) {
+        return new EmployeeData(id,employeeDTO);
     }
 
-    public String deleteEmployee(Long id) {
-        return "Employee Deleted for id: " + id;
+    public EmployeeData deleteEmployee(int id) {
+        return new EmployeeData();
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.EmployeePayload.Model;
 
+import com.example.EmployeePayload.DTO.EmployeeDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,10 +11,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "employee")
-public class Employee {
+public class EmployeeData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private int id;
     private String name;
-    private int salary;
+    private long salary;
+
+    public EmployeeData(int empId, EmployeeDTO employeeDTO) {
+        this.id = empId;
+        this.name = employeeDTO.getName();
+        this.salary = employeeDTO.getSalary();
+    }
 }
