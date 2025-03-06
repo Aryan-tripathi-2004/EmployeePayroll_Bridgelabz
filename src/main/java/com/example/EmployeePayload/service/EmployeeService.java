@@ -2,8 +2,6 @@ package com.example.EmployeePayload.service;
 
 import com.example.EmployeePayload.DTO.EmployeeDTO;
 import com.example.EmployeePayload.Model.EmployeeData;
-import com.example.EmployeePayload.Repository.EmployeeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,29 +10,40 @@ import java.util.List;
 @Service
 public class EmployeeService implements IEmployeeService {
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
+    private List<EmployeeData> empList = new ArrayList<>();
 
     public List<EmployeeData> getAllEmployee() {
-        List<EmployeeData> empList = new ArrayList<>();
-        empList.add(new EmployeeData(1,new EmployeeDTO("Aryan",100000)));
         return empList;
     }
 
     public EmployeeData getEmployeeById(int id) {
-        return new EmployeeData(1,new EmployeeDTO("kartik",900000));
+        for(EmployeeData emp : empList){
+            if(emp.getId() == id){
+                return emp;
+            }
+        }
+        return new EmployeeData(-1,new EmployeeDTO("Jane Doe",000000));
     }
 
     public EmployeeData postEmployee(EmployeeDTO employeeDTO) {
-        return new EmployeeData(1,employeeDTO);
+        empList.add(new EmployeeData(empList.size()+1,employeeDTO));
+        return empList.getLast();
     }
 
     public EmployeeData putEmployee(int id,EmployeeDTO employeeDTO) {
-        return new EmployeeData(id,employeeDTO);
+        for(EmployeeData emp : empList){
+            if(emp.getId() == id){
+                emp.setName(employeeDTO.getName());
+                emp.setSalary(employeeDTO.getSalary());
+                return emp;
+            }
+        }
+        return new EmployeeData(-1,new EmployeeDTO("Jane Doe",000000));
     }
 
     public EmployeeData deleteEmployee(int id) {
-        return new EmployeeData();
+        if(empList.size() >= id) return empList.remove(id-1);
+        return new EmployeeData(-1,new EmployeeDTO("Jane Doe",000000));
     }
 
 }
